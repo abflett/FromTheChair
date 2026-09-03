@@ -1,7 +1,8 @@
 # Reminders, presence, and activity types
 
-**Status:** Product discussion. The scenarios and requested capabilities below come
-from the user; the proposed behavior still needs agreement. Nothing here is implemented.
+**Status:** Windows-account ownership and the Start / Snooze / Away actions are agreed.
+Timed Away and an automatic pause after no response are the desired direction; exact
+durations and interactions below remain proposals. Nothing here is implemented.
 
 ## User scenario and requirements
 
@@ -16,36 +17,70 @@ to silence it without recording a snooze, skipped exercise, or workout result as
   more demanding workouts for strength or conditioning.
 - Keep reminders and progress useful without creating confusing account management.
 
-## Proposed identity and presence model
+## Identity and presence
 
-Start with the Windows account as the data owner. The sidebar can show its display
-name and initial. Multiple local exercise profiles remain an open, deferred choice;
-the immediate scenario concerns a visitor using the owner's session.
+Use the Windows account as the data owner, showing its display name and initial in
+the sidebar. Multiple exercise users within one Windows account are out of scope for
+the initial version. Preserve a migration path for local profiles if that changes;
+see [the ownership plan](../architecture.md#planned-data-ownership).
 
 Windows session state and computer activity do not establish who is at the keyboard.
-A visitor can keep a session active. Provide an explicit **Adam is away** action,
-with wording adapted to the displayed name.
+A visitor can keep a session active. Provide an explicit **Away** action in a reminder
+addressed to Adam, with wording adapted to the displayed name where helpful.
 
-That action would silence the current alert, pause further reminders for Adam, and
-record an availability event. It must not count as Adam snoozing, skipping, or
-completing an exercise. Show the paused state in the app/tray and provide an explicit
-**Resume reminders** action when Adam returns. Keyboard activity alone should not
-undo an explicit away setting.
+Away silences the current alert, pauses further reminders for Adam, and records an
+availability event. It must not count as Adam snoozing, skipping, or completing an
+exercise. The pause should have an expiry so the app can try again later instead of
+being forgotten in the tray. Show **Paused until [time]** in the app/tray and provide
+**Resume now**. Keyboard activity alone should not shorten an explicit Away interval.
 
 This prevents accidental misclassification; it is not authentication or protection
 against someone deliberately editing data in a shared Windows session.
 
-## Proposed reminder actions
+## Reminder actions
 
-Keep the primary prompt small. Exact labels, durations, and placement are undecided.
+The agreed primary actions are **Start**, **Snooze**, and **Away**. Keep the primary
+prompt small. Durations and the placement of secondary actions remain undecided.
 
 | Action | Intended meaning |
 | --- | --- |
 | Start | Begin the suggested break or workout; starting is not completion |
 | Snooze | The intended user asks for a later reminder |
-| Adam is away | Someone reports the intended user unavailable; pause delivery |
-| Pause until... | Temporarily suspend reminders, with a clear resume time |
-| Skip this workout | Explicitly decline this planned workout, if offered |
+| Away | Report the intended user unavailable, then choose how long to pause |
+
+An explicit **Skip this workout** action may belong on the workout screen later;
+it is not another primary reminder button.
+
+## Timed Away proposal
+
+- Silence the current sound immediately when Away is selected, then show a compact
+  duration choice. Do not keep sounding while someone answers the second step.
+- Suggested choices: **30 minutes**, **2 hours**, **4 hours**, and **Until tomorrow**.
+  Use 2 hours as a provisional default. These values are not finalized.
+- Establish the default pause immediately; a duration choice replaces it. Closing
+  the duration chooser should leave the default pause in effect, not restart alarms
+  or leave an unbounded pause. Show the resulting expiry clearly.
+- Persist the pause reason and expiry across restart. When the interval expires,
+  re-evaluate eligibility before issuing at most one relevant reminder. Sleeping,
+  locked, inactive Windows sessions and configured quiet hours still suppress alerts.
+- Define tomorrow as the next permitted reminder window in local time, rather than
+  midnight. Working-hour and quiet-hour settings still need design.
+
+## No-response proposal
+
+The user suggested pausing for 2–4 hours after an unanswered reminder. Start with a
+configurable 2-hour automatic pause, with 4 hours available as an option.
+
+Use a separate, defined response deadline; its duration is still open. The native
+banner disappearing is not that deadline and does not establish that the user saw
+it. Once the deadline passes without an action, stop any alert sound, record
+**No response / automatically paused**, and wait until the pause expires before
+trying again. Do not relabel this as the user explicitly selecting Away.
+
+There should be no repeated sounds during the response window. A later retry must
+still respect the current schedule and availability. A fresh unanswered retry can
+pause again without accumulating old reminders. Expire superseded notification
+actions so they cannot change the current schedule.
 
 A dismissed or unanswered notification is unknown, not proof of a skipped or
 completed workout. Keep notification delivery, availability, user choices, and actual
@@ -74,8 +109,8 @@ as compensation for time away.
 - Logoff or app exit can stop the process. Reconcile persisted schedule information
   on the next launch; do not assume a background timer kept running.
 - Decide the return grace period and whether an automatically paused movement cadence
-  restarts or preserves its remaining time. Explicitly reported absence should
-  continue until the user resumes reminders.
+  restarts or preserves its remaining time. A timed Away interval ends at its expiry
+  or when the user selects Resume now; unlocking alone does not end it early.
 - Decide how idle detection behaves during games, video, and reading; absence cannot
   be inferred reliably from input inactivity alone.
 - Decide how a workout already in progress behaves across sleep or absence, including

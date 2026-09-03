@@ -53,6 +53,40 @@ silent reset. Connections close after each operation; pooling is disabled.
 Preserve existing data when the schema evolves. Add explicit migrations only when
 a feature needs them.
 
+## Planned data ownership
+
+The initial product uses one exercise identity per Windows account. The display name
+is presentation; it must not become a database key. Multiple local profiles are
+deferred, but the user wants to preserve existing data if they are introduced later.
+
+The current version-1 schema has only singleton preferences, with no profile table
+or profile-aware services. The following is a proposed extension, not implemented:
+
+- When introducing personal history and schedules, create one internal default
+  profile with a stable identifier. Keep it implicit in the initial UI.
+- Associate personal preferences, reminder schedules/events, workout results, and
+  body measurements with that identifier through `profile_id` foreign keys. Shared
+  exercise definitions and Windows-level app settings need not belong to a person.
+- Scope relevant persistence/service operations to the identifier at their boundary,
+  so adding a selector later does not require finding global data queries throughout
+  the UI. Do not build a profile-management framework now.
+- Migrate existing preferences into the default profile transactionally, preserve
+  their values, and increment the schema version. If tables need rebuilding to add
+  constraints, use SQLite's documented migration procedure rather than resetting
+  the database. See [SQLite schema changes](https://www.sqlite.org/lang_altertable.html).
+- If local profiles arrive later, preserve existing records under the default
+  profile and add new identities with separate identifiers. A renamed Windows
+  display name must not create a new owner or detach history.
+
+This can preserve data and continuity for users. It does not eliminate future code
+changes: profile selection, reminder routing, and in-progress session behavior will
+still need decisions. Older app versions should continue refusing unsupported newer
+schemas; compatibility does not imply that an old binary can read every future schema.
+
+Reminder state should likewise distinguish a user-chosen pause from an automatic
+no-response pause. Persist the pause reason and expiry and reconcile on resume;
+see [reminder behavior](plans/reminders-and-activity.md).
+
 ## Future boundaries
 
 These are guidance for later work, not services already implemented.

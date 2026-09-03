@@ -24,8 +24,8 @@ results tracking yet.
 These describe the product direction, not a commitment to build everything at once.
 
 - Optional startup with Windows and operation from the system tray.
-- Native workout reminders, with snooze, cancel, and extend actions and a record
-  of how the user responds.
+- Native reminders with Start, Snooze, and Away actions, a timed pause after Away,
+  and distinct tracking for explicit responses and unanswered reminders.
 - A way for someone else using the computer to report the intended user away without
   recording an exercise decision on that person's behalf.
 - Separate handling for frequent light movement breaks and planned strength/cardio
@@ -37,7 +37,9 @@ These describe the product direction, not a commitment to build everything at on
   YouTube links and offline video are desired; media sourcing and playback details
   still need decisions.
 - Session results, optional weight and body measurements, and useful progress charts.
-- Settings and, if useful, profiles that fit different schedules and lifestyles.
+- Settings and routines that fit different schedules and lifestyles. Initially one
+  exercise identity per Windows account; multiple local profiles are deferred with
+  a migration path planned.
 
 ## Established constraints
 

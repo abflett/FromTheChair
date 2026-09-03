@@ -21,10 +21,11 @@ and repeated app title with a personal header, and move the collapse control els
 Their current preference is to display the Windows account's name and an initial.
 A separate collapse chevron near Settings is a proposal, not a finalized placement.
 
-Multiple local profiles remain undecided. A concrete shared-computer scenario now
-requires a way to report the intended user away without changing their exercise
-results. See [reminders and activity types](reminders-and-activity.md) for the proposed
-presence controls and the distinction between movement breaks and planned workouts.
+The initial version will use the Windows account, with local profile switching
+deferred and a data migration path retained. The agreed reminder actions are Start,
+Snooze, and Away. Away should allow a duration choice and show when reminders will
+resume. See [reminders and activity types](reminders-and-activity.md) for the proposed
+timings, no-response handling, and distinction between movement breaks and workouts.
 
 ## Questions for the design discussion
 
