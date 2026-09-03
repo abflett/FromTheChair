@@ -14,6 +14,18 @@
 The existing navigation and page layouts are a starting point, not a final design
 commitment. No replacement layout, palette, typography, or branding has been selected.
 
+## Sidebar discussion so far
+
+The user wants to preserve expanded and condensed navigation, replace the hamburger
+and repeated app title with a personal header, and move the collapse control elsewhere.
+Their current preference is to display the Windows account's name and an initial.
+A separate collapse chevron near Settings is a proposal, not a finalized placement.
+
+Multiple local profiles remain undecided. A concrete shared-computer scenario now
+requires a way to report the intended user away without changing their exercise
+results. See [reminders and activity types](reminders-and-activity.md) for the proposed
+presence controls and the distinction between movement breaks and planned workouts.
+
 ## Questions for the design discussion
 
 - **Overall structure:** which destinations belong in navigation, and what should

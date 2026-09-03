@@ -15,6 +15,9 @@ there is an actual release; dated version sections can be added then.
 - Focused tests for preference rules and SQLite data handling.
 - Repository agent instructions, a documentation index, product and architecture
   notes, manual development instructions, and a plan for the next design discussion.
+- Product planning notes for shared-computer reminders, absence handling, movement
+  breaks versus workouts, and the sidebar identity discussion; behavior is proposed
+  and not yet implemented.
 
 ### Changed
 

@@ -9,6 +9,7 @@ Start here for the app's purpose, implementation, and next decisions.
 | [Development](development.md) | Visual Studio setup and commands for the user to build and test manually |
 | [Changelog](CHANGELOG.md) | Notable changes, beginning with the unreleased foundation |
 | [Design direction](plans/design-direction.md) | The next design discussion and later implementation sequence |
+| [Reminders and activity types](plans/reminders-and-activity.md) | Shared-computer use, absence handling, movement breaks, and planned workouts |
 | [Agent instructions](../AGENTS.md) | Repository workflow, commit/push rules, and user-owned verification |
 
 The current app is a working shell with local preferences. **Design and layout are

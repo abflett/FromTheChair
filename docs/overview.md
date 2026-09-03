@@ -26,6 +26,11 @@ These describe the product direction, not a commitment to build everything at on
 - Optional startup with Windows and operation from the system tray.
 - Native workout reminders, with snooze, cancel, and extend actions and a record
   of how the user responds.
+- A way for someone else using the computer to report the intended user away without
+  recording an exercise decision on that person's behalf.
+- Separate handling for frequent light movement breaks and planned strength/cardio
+  workouts, including absence and missed-session behavior. See the
+  [reminder design discussion](plans/reminders-and-activity.md) for proposed semantics.
 - Simple, replaceable exercises and routines, with room for more demanding options.
 - A workout timer with start, pause, and other session controls.
 - Embedded exercise video, including looping and controls independent of the timer.
