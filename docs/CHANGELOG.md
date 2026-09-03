@@ -21,6 +21,8 @@ there is an actual release; dated version sections can be added then.
 - Set the application target to .NET 10 and added SDK selection through `global.json`.
 - Updated the package display name to From the Chair and removed an unused template
   capability.
+- Clarified the one-time Developer Mode setup for Visual Studio's packaged Play/F5
+  workflow and how it differs from the earlier unpackaged UI smoke check.
 
 This foundation does not yet include active reminders, tray behavior, video playback,
 workout sessions, or progress tracking.

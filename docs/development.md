@@ -20,10 +20,19 @@ Use Visual Studio 2026 with the WinUI/Windows App SDK development tools and a .N
 SDK. `global.json` accepts installed stable .NET 10 feature bands. Package versions
 are recorded in the project files.
 
-1. Open `FromTheChair.slnx`.
-2. Set `FromTheChair.App` as the startup project.
-3. Select **Debug / x64** and **FromTheChair.App (Package)**.
-4. Press **F5** when ready to run the app.
+1. Enable **Developer Mode** once in Windows Settings so Visual Studio can deploy
+   the local development package. Use the settings link in Visual Studio's prompt,
+   or search Windows Settings for **Developer Mode** and turn it on.
+2. Open `FromTheChair.slnx`.
+3. Set `FromTheChair.App` as the startup project.
+4. Select **Debug / x64** and **FromTheChair.App (Package)** beside the green Play button.
+5. Click **Play** or press **F5** when ready to run the app. Visual Studio builds,
+   deploys, and launches it with the debugger.
+
+Developer Mode is under **System > Advanced > For developers** in Windows 11 25H2
+and later; earlier versions use a **For developers** settings page. Device Portal
+and Device Discovery are not needed for local debugging. See Microsoft's
+[Developer Mode instructions](https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode).
 
 The app uses single-project MSIX packaging; there is no separate packaging project.
 
@@ -47,6 +56,8 @@ dotnet build FromTheChair.App/FromTheChair.App.csproj -p:Platform=x64 -p:Windows
 ```
 
 Selecting the unpackaged launch profile alone does not change the packaging properties.
+The earlier UI smoke check used an unpackaged command-line build and launched its
+executable directly, so it did not exercise Visual Studio's packaged deployment path.
 The generated executable is under the app's `bin/x64/Debug` directory and requires
 the matching Windows App Runtime. The packaged Visual Studio workflow is the default.
 These build commands do not publish or sign a release.
