@@ -1,8 +1,9 @@
 # Reminders, presence, and activity types
 
 **Status:** Windows-account ownership and the Start / Snooze / Away actions are agreed.
-Timed Away and an automatic pause after no response are the desired direction; exact
-durations and interactions below remain proposals. Nothing here is implemented.
+Away uses a split button: the main action applies the displayed duration, and choosing
+a duration from its menu applies it immediately. Exact duration choices and automatic
+no-response timings remain proposals. Nothing here is implemented.
 
 ## User scenario and requirements
 
@@ -46,20 +47,45 @@ prompt small. Durations and the placement of secondary actions remain undecided.
 | --- | --- |
 | Start | Begin the suggested break or workout; starting is not completion |
 | Snooze | The intended user asks for a later reminder |
-| Away | Report the intended user unavailable, then choose how long to pause |
+| Away | Pause for the displayed duration; the attached menu offers other durations |
 
 An explicit **Skip this workout** action may belong on the workout screen later;
 it is not another primary reminder button.
 
-## Timed Away proposal
+## Away split-button interaction
 
-- Silence the current sound immediately when Away is selected, then show a compact
-  duration choice. Do not keep sounding while someone answers the second step.
+The user selected a split-button interaction instead of a follow-up duration prompt:
+
+```text
+[ Start ]  [ Snooze ]  [ Away | 2 hours v ]
+```
+
+- Clicking the **Away** portion immediately pauses for the displayed duration and
+  silences the current alert. There is no confirmation or second prompt.
+- Clicking the duration/chevron portion opens the menu without applying Away.
+- Selecting a duration applies Away for that duration immediately and closes the
+  menu. No additional Apply or Away click is needed.
+- Closing the menu without selecting anything leaves the existing reminder state
+  unchanged. Opening a menu alone is not an Away decision.
+- Keep the duration visible before the action, and show **Paused until [time]**
+  afterward, with **Resume now** available.
+- Label menu actions clearly, such as **Away for 30 minutes** and **Away for 2 hours**,
+  because selecting an item takes effect immediately. Retain keyboard operation and
+  accessible names that communicate both the action and duration.
+
+WinUI provides a native [SplitButton](https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/buttons#create-a-split-button)
+for the app's own UI. The exact positioning of duration text is a styling detail to
+resolve during implementation. Windows notification banners use their own content
+schema and controls; do not assume arbitrary WinUI controls can be embedded in them.
+The equivalent notification interaction remains a separate design decision. See
+[app notification content options](https://learn.microsoft.com/en-us/windows/apps/develop/notifications/app-notifications/).
+
+## Timed Away defaults and expiry proposal
+
 - Suggested choices: **30 minutes**, **2 hours**, **4 hours**, and **Until tomorrow**.
   Use 2 hours as a provisional default. These values are not finalized.
-- Establish the default pause immediately; a duration choice replaces it. Closing
-  the duration chooser should leave the default pause in effect, not restart alarms
-  or leave an unbounded pause. Show the resulting expiry clearly.
+- Decide separately whether a chosen duration becomes the next reminder's default.
+  Applying Away must always use the duration currently displayed to the user.
 - Persist the pause reason and expiry across restart. When the interval expires,
   re-evaluate eligibility before issuing at most one relevant reminder. Sleeping,
   locked, inactive Windows sessions and configured quiet hours still suppress alerts.

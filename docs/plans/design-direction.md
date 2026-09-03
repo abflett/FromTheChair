@@ -24,7 +24,9 @@ A separate collapse chevron near Settings is a proposal, not a finalized placeme
 The initial version will use the Windows account, with local profile switching
 deferred and a data migration path retained. The agreed reminder actions are Start,
 Snooze, and Away. Away should allow a duration choice and show when reminders will
-resume. See [reminders and activity types](reminders-and-activity.md) for the proposed
+resume. Use a split button: clicking Away applies the displayed duration, while
+choosing another duration from its menu applies that duration immediately. There is
+no follow-up confirmation prompt. See [reminders and activity types](reminders-and-activity.md) for the proposed
 timings, no-response handling, and distinction between movement breaks and workouts.
 
 ## Questions for the design discussion

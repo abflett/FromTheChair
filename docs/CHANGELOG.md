@@ -28,6 +28,8 @@ there is an actual release; dated version sections can be added then.
   workflow and how it differs from the earlier unpackaged UI smoke check.
 - Recorded Windows-account ownership and Start/Snooze/Away as product decisions,
   with proposals for timed pauses, no-response handling, and future profile migration.
+- Refined the planned Away action into a split button with a visible duration and
+  immediate application from either its main action or duration menu.
 
 This foundation does not yet include active reminders, tray behavior, video playback,
 workout sessions, or progress tracking.
