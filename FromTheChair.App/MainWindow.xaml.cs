@@ -1,31 +1,51 @@
+using FromTheChair.App.ViewModels;
+using FromTheChair.App.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Graphics;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+namespace FromTheChair.App;
 
-namespace FromTheChair.App
+public sealed partial class MainWindow : Window
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainWindow : Window
+    private readonly PreferencesViewModel _preferences;
+    private bool _initialized;
+
+    public MainWindow(PreferencesViewModel preferences)
     {
-        public MainWindow()
+        _preferences = preferences;
+        InitializeComponent();
+        AppWindow.Resize(new SizeInt32(1080, 760));
+    }
+
+    private async void Navigation_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (_initialized) return;
+        _initialized = true;
+        Navigation.SelectedItem = Navigation.MenuItems[0];
+        await _preferences.LoadAsync();
+    }
+
+    private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    {
+        if (args.IsSettingsSelected)
         {
-            InitializeComponent();
+            PageContent.Content = new SettingsPage(_preferences);
+            return;
         }
+
+        PageContent.Content = ((args.SelectedItem as NavigationViewItem)?.Tag as string) switch
+        {
+            "routines" => new RoutinesPage(),
+            "progress" => new ProgressPage(),
+            _ => CreateHomePage()
+        };
+    }
+
+    private HomePage CreateHomePage()
+    {
+        var page = new HomePage(_preferences);
+        page.ConfigureRequested += (_, _) => Navigation.SelectedItem = Navigation.SettingsItem;
+        return page;
     }
 }

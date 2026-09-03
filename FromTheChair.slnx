@@ -10,4 +10,7 @@
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
+  <Project Path="FromTheChair.Core/FromTheChair.Core.csproj" />
+  <Project Path="FromTheChair.Infrastructure/FromTheChair.Infrastructure.csproj" />
+  <Project Path="FromTheChair.Tests/FromTheChair.Tests.csproj" />
 </Solution>

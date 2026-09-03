@@ -1,0 +1,34 @@
+<Page x:Class="FromTheChair.App.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="36" Spacing="24" MaxWidth="820" HorizontalAlignment="Stretch">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Make movement fit your day." Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="28">
+                <StackPanel Spacing="18">
+                    <TextBlock Text="Your break rhythm" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="Choose a preferred interval between 15 and 240 minutes. Saving this preference won't start reminders yet."
+                               TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                    <NumberBox Header="Minutes between breaks" Width="240" HorizontalAlignment="Left"
+                               Value="{x:Bind ViewModel.BreakIntervalMinutes, Mode=TwoWay}"
+                               Minimum="{x:Bind ViewModel.MinimumInterval}" Maximum="{x:Bind ViewModel.MaximumInterval}"
+                               SmallChange="15" LargeChange="30" SpinButtonPlacementMode="Inline"
+                               AutomationProperties.AutomationId="BreakIntervalInput" />
+                    <Button Content="Save preferences" Command="{x:Bind ViewModel.SaveCommand}"
+                            Style="{ThemeResource AccentButtonStyle}" AutomationProperties.AutomationId="SavePreferencesButton" />
+                    <TextBlock Text="{x:Bind ViewModel.StatusMessage, Mode=OneWay}" TextWrapping="Wrap"
+                               AutomationProperties.LiveSetting="Polite" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                </StackPanel>
+            </Border>
+            <StackPanel Spacing="8">
+                <TextBlock Text="On this device" FontWeight="SemiBold" />
+                <TextBlock Text="Your preferences are stored locally. An account isn't needed."
+                           TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
