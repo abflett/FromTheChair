@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FromTheChair.App (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FromTheChair.App (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
